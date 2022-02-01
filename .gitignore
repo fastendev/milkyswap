@@ -1,11 +1,7 @@
-abi/
 artifacts/
 cache/
-coverage/
-exports/
 node_modules/
-types/
-package-lock.json
+dist/
 coverage.json
 .env
 .DS_Store
