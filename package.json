@@ -16,13 +16,12 @@
     "lint": "yarn prettier ./test/*.ts --check",
     "lint:fix": "yarn prettier ./test/*.ts --write",
     "clean": "rimraf ./build/",
-    "precompile": "yarn clean",
+    "precompile": "hardhat clean",
     "compile": "hardhat compile",
     "pretest": "yarn compile",
     "test": "mocha",
     "prepublishOnly": "yarn test",
-    "deploy": "hardhat run deploy/deploy.ts",
-    "deploy_testnet": "hardhat run deploy/deploy_testnet.ts"
+    "deploy": "hardhat run deploy/deployCore.ts"
   },
   "devDependencies": {
     "@boringcrypto/boring-solidity": "boringcrypto/BoringSolidity#e06e943",

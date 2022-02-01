@@ -1,8 +1,10 @@
 import { run, ethers, network } from "hardhat";
 import {
-    deployFactory,
-    deployPeriphery,
-} from "./helpers";
+    UniswapV2Factory__factory,
+    WETH9__factory,
+    UniswapV2Router02__factory,
+    Multicall2__factory,
+} from '../dist/types';
 import fs from 'fs';
 
 async function main() {
@@ -12,12 +14,28 @@ async function main() {
   
     console.log(`Deploying contracts with from: ${deployer.address}`);
       
-    const { factory } = await deployFactory(deployer);
-    
+    const Factory = new UniswapV2Factory__factory(deployer);
+    const factory = await Factory.deploy(deployer.address);
+    await factory.deployed();
+    console.log(`UniswapV2Factory deployed to ${factory.address}`);
+
     const INIT_CODE_PAIR_HASH = await factory.INIT_CODE_PAIR_HASH();
     console.log(`INIT_CODE_PAIR_HASH: ${INIT_CODE_PAIR_HASH}`)
     
-    const { weth, router, multicall } = await deployPeriphery(deployer, factory.address);
+    const Weth = new WETH9__factory(deployer);
+    const weth = await Weth.deploy();
+    await weth.deployed();
+    console.log(`WETH deployed to ${weth.address}`);
+
+    const Router = new UniswapV2Router02__factory(deployer);
+    const router = await Router.deploy(factory.address, weth.address);
+    await router.deployed();
+    console.log(`Router deployed to ${router.address}`);
+
+    const Multicall = new Multicall2__factory(deployer);
+    const multicall = await Multicall.deploy();
+    await multicall.deployed();
+    console.log(`Multicall deployed to ${multicall.address}`);
 
     const coreAddressPath = `${process.cwd()}/addresses/${network.config.chainId}/core.json`;
     const coreAddressBook = {
