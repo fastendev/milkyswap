@@ -51,7 +51,7 @@ contract MasterMilker is Ownable {
     // MILKY tokens created per block.
     uint256 public milkyPerBlock;
     // Bonus muliplier for early milky makers.
-    uint256 public constant BONUS_MULTIPLIER = 10;
+    uint256 public constant BONUS_MULTIPLIER = 1;
     // Info of each pool.
     PoolInfo[] public poolInfo;
     // Info of each user that stakes LP tokens.
@@ -261,5 +261,11 @@ contract MasterMilker is Ownable {
     function dev(address _devaddr) public {
         require(msg.sender == devaddr, "dev: wut?");
         devaddr = _devaddr;
+    }
+
+    //Pancake has to add hidden dummy pools inorder to alter the emission, here we make it simple and transparent to all.	
+    function updateEmissionRate(uint256 _spiritPerBlock) public onlyOwner {	
+        massUpdatePools();	
+        spiritPerBlock = _spiritPerBlock;	
     }
 }

@@ -82,10 +82,14 @@ async function main() {
     await masterMilker.deployed();
     console.log(`MasterMilker deployed to ${masterMilker.address}`);
 
-    const factory = UniswapV2Factory__factory.connect(addresses.factory, deployer);
-    const tx = await factory.setFeeTo(milkyMaker.address);
-    await tx.wait();
-    console.log(`Factory feeTo set at tx ${tx.hash}`);
+    // const factory = UniswapV2Factory__factory.connect(addresses.factory, deployer);
+    // const tx = await factory.setFeeTo(milkyMaker.address);
+    // await tx.wait();
+    // console.log(`Factory feeTo set at tx ${tx.hash}`);
+
+    // const tx = await milkyToken.transferOwnership(masterMilker.address);
+    // await tx.wait();
+    // console.log(`$MILKY ownership transferred to MasterMilker at tx ${tx.hash}`)
 
     const coreAddressPath = `${process.cwd()}/addresses/${network.config.chainId}/farm.json`;
     const coreAddressBook = {
