@@ -21,7 +21,8 @@
     "pretest": "yarn compile",
     "test": "mocha",
     "prepublishOnly": "yarn test",
-    "deploy": "hardhat run deploy/deployCore.ts"
+    "deploy": "hardhat run deploy/deployCore.ts",
+    "deploy-farm": "hardhat run deploy/deployFarm.ts"
   },
   "devDependencies": {
     "@boringcrypto/boring-solidity": "boringcrypto/BoringSolidity#e06e943",
