@@ -24,7 +24,7 @@ export async function prepare(thisObject: any, contracts: any) {
   thisObject.carolPrivateKey = "0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a"
 }
 
-export async function deploy(thisObject: any, contracts: Contract[]) {
+export async function deploy(thisObject: any, contracts: any) {
   for (let i in contracts) {
     let contract = contracts[i]
     thisObject[contract[0]] = await contract[1].deploy(...(contract[2] || []))
