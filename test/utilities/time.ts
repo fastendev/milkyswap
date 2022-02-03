@@ -1,18 +1,17 @@
-const { ethers } = require("hardhat")
-
-const { BigNumber } = ethers
+import { ethers } from 'hardhat'
+import { BigNumber, BigNumberish } from 'ethers'
 
 export async function advanceBlock() {
   return ethers.provider.send("evm_mine", [])
 }
 
-export async function advanceBlockTo(blockNumber) {
+export async function advanceBlockTo(blockNumber: BigNumberish) {
   for (let i = await ethers.provider.getBlockNumber(); i < blockNumber; i++) {
     await advanceBlock()
   }
 }
 
-export async function increase(value) {
+export async function increase(value: BigNumber) {
   await ethers.provider.send("evm_increaseTime", [value.toNumber()])
   await advanceBlock()
 }
@@ -22,32 +21,32 @@ export async function latest() {
   return BigNumber.from(block.timestamp)
 }
 
-export async function advanceTimeAndBlock(time) {
+export async function advanceTimeAndBlock(time: BigNumberish) {
   await advanceTime(time)
   await advanceBlock()
 }
 
-export async function advanceTime(time) {
+export async function advanceTime(time: BigNumberish) {
   await ethers.provider.send("evm_increaseTime", [time])
 }
 
 export const duration = {
-  seconds: function (val) {
+  seconds: function (val: BigNumberish) {
     return BigNumber.from(val)
   },
-  minutes: function (val) {
+  minutes: function (val: BigNumberish) {
     return BigNumber.from(val).mul(this.seconds("60"))
   },
-  hours: function (val) {
+  hours: function (val: BigNumberish) {
     return BigNumber.from(val).mul(this.minutes("60"))
   },
-  days: function (val) {
+  days: function (val: BigNumberish) {
     return BigNumber.from(val).mul(this.hours("24"))
   },
-  weeks: function (val) {
+  weeks: function (val: BigNumberish) {
     return BigNumber.from(val).mul(this.days("7"))
   },
-  years: function (val) {
+  years: function (val: BigNumberish) {
     return BigNumber.from(val).mul(this.days("365"))
   },
 }
