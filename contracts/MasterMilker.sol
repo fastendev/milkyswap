@@ -264,8 +264,8 @@ contract MasterMilker is Ownable {
     }
 
     //Pancake has to add hidden dummy pools inorder to alter the emission, here we make it simple and transparent to all.	
-    function updateEmissionRate(uint256 _spiritPerBlock) public onlyOwner {	
+    function updateEmissionRate(uint256 _milkyPerBlock) public onlyOwner {	
         massUpdatePools();	
-        spiritPerBlock = _spiritPerBlock;	
+        milkyPerBlock = _milkyPerBlock;	
     }
 }
