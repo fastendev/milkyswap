@@ -29,7 +29,7 @@ contract MilkyMaker is Ownable {
     address private immutable milky;
     // 0x...
     // V1 - V5: OK
-    address private immutable wwada;
+    address private immutable wada;
     // 0x...
 
     // V1 - V5: OK
@@ -51,12 +51,12 @@ contract MilkyMaker is Ownable {
         address _factory,
         address _dest,
         address _milky,
-        address _wwada
+        address _wada
     ) public {
         factory = IUniswapV2Factory(_factory);
         dest = _dest;
         milky = _milky;
-        wwada = _wwada;
+        wada = _wada;
     }
 
     // F1 - F10: OK
@@ -64,7 +64,7 @@ contract MilkyMaker is Ownable {
     function bridgeFor(address token) public view returns (address bridge) {
         bridge = _bridges[token];
         if (bridge == address(0)) {
-            bridge = wwada;
+            bridge = wada;
         }
     }
 
@@ -73,7 +73,7 @@ contract MilkyMaker is Ownable {
     function setBridge(address token, address bridge) external onlyOwner {
         // Checks
         require(
-            token != milky && token != wwada && token != bridge,
+            token != milky && token != wada && token != bridge,
             "MilkyMaker: Invalid bridge"
         );
 
@@ -158,8 +158,8 @@ contract MilkyMaker is Ownable {
             if (token0 == milky) {
                 IERC20(milky).safeTransfer(dest, amount);
                 milkyOut = amount;
-            } else if (token0 == wwada) {
-                milkyOut = _toMILKY(wwada, amount);
+            } else if (token0 == wada) {
+                milkyOut = _toMILKY(wada, amount);
             } else {
                 address bridge = bridgeFor(token0);
                 amount = _swap(token0, bridge, amount, address(this));
@@ -173,17 +173,17 @@ contract MilkyMaker is Ownable {
             // eg. USDT - MILKY
             IERC20(milky).safeTransfer(dest, amount1);
             milkyOut = _toMILKY(token0, amount0).add(amount1);
-        } else if (token0 == wwada) {
+        } else if (token0 == wada) {
             // eg. ETH - USDC
             milkyOut = _toMILKY(
-                wwada,
-                _swap(token1, wwada, amount1, address(this)).add(amount0)
+                wada,
+                _swap(token1, wada, amount1, address(this)).add(amount0)
             );
-        } else if (token1 == wwada) {
+        } else if (token1 == wada) {
             // eg. USDT - ETH
             milkyOut = _toMILKY(
-                wwada,
-                _swap(token0, wwada, amount0, address(this)).add(amount1)
+                wada,
+                _swap(token0, wada, amount0, address(this)).add(amount1)
             );
         } else {
             // eg. MIC - USDT
