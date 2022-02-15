@@ -1,4 +1,5 @@
 import { run, ethers, network } from "hardhat";
+import { BigNumber } from 'ethers';
 import {
     MilkyToken__factory,
     CreamyToken__factory,
@@ -9,11 +10,12 @@ import {
 } from '../dist/types'
 import fs from 'fs';
 
-const FEE_DISTRIBUTOR_START_TIME = 1;
-const DEV_ADDRESS = ''; // just the deployer or dev
-const MILKY_PER_BLOCK = 100;
-const BONUS_END_BLOCK = 1;
-const START_BLOCK = 1;
+const DECIMALS = BigNumber.from('1000000000000000000')
+const FEE_DISTRIBUTOR_START_TIME = 1644954162;
+const MILKY_PER_BLOCK = 6;
+const START_BLOCK = 2172350;
+const BONUS_END_BLOCK = 2172351; // plus one
+const PREMINE = BigNumber.from('38955600').mul(DECIMALS);
 
 type MilkyAddressBook = {
     factory: string;
@@ -27,7 +29,6 @@ async function main() {
   
     console.log(`Deploying contracts with from: ${deployer.address}`);
 
-    // deploy, and FeeDistributor, set feeTo
     const addresses: MilkyAddressBook = require(`${process.cwd()}/addresses/${network.config.chainId}/core.json`);
 
     // deploy MILKY
@@ -82,14 +83,19 @@ async function main() {
     await masterMilker.deployed();
     console.log(`MasterMilker deployed to ${masterMilker.address}`);
 
-    // const factory = UniswapV2Factory__factory.connect(addresses.factory, deployer);
-    // const tx = await factory.setFeeTo(milkyMaker.address);
-    // await tx.wait();
-    // console.log(`Factory feeTo set at tx ${tx.hash}`);
+    // configuration transactions
+    const factory = UniswapV2Factory__factory.connect(addresses.factory, deployer);
+    const txFee = await factory.setFeeTo(milkyMaker.address);
+    await txFee.wait();
+    console.log(`Factory feeTo set at tx ${txFee.hash}`);
 
-    // const tx = await milkyToken.transferOwnership(masterMilker.address);
-    // await tx.wait();
-    // console.log(`$MILKY ownership transferred to MasterMilker at tx ${tx.hash}`)
+    const txPremine = await milkyToken.mint(deployer.address, PREMINE);
+    await txPremine.wait();
+    console.log(`MILKY premined at tx ${txPremine.hash}`);
+
+    const txOwnership = await milkyToken.transferOwnership(masterMilker.address);
+    await txOwnership.wait();
+    console.log(`$MILKY ownership transferred to MasterMilker at tx ${txOwnership.hash}`)
 
     const coreAddressPath = `${process.cwd()}/addresses/${network.config.chainId}/farm.json`;
     const coreAddressBook = {
@@ -98,7 +104,10 @@ async function main() {
         creamy: creamyToken.address,
         feeDistributor: feeDistributor.address,
         milkyMaker: milkyMaker.address,
-        masterMilker: masterMilker.address
+        masterMilker: masterMilker.address,
+        txFeeTo: txFee.hash,
+        txPremine: txPremine.hash,
+        txOwnership: txOwnership.hash
     };
 
     fs.writeFileSync(

@@ -4,5 +4,8 @@
   "creamy": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
   "feeDistributor": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
   "milkyMaker": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
-  "masterMilker": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
+  "masterMilker": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+  "txFeeTo": "0x598fd6b764d3b01a94e74654ac77957fa74ea7451faee196c2488fe948a09051",
+  "txPremine": "0x52347eff548a6edcb272aad6e4fa2fa9157a2aadc69e1d64a10fa7eac3335698",
+  "txOwnership": "0x5d690db0da50fd244fc81b83de0b0cadaca3a1bf0af2ed6bebc223123cc428ba"
 }
