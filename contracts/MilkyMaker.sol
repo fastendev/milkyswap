@@ -53,6 +53,10 @@ contract MilkyMaker is Ownable {
         address _milky,
         address _wada
     ) public {
+        assert(_factory != address(0));
+        assert(_dest != address(0));
+        assert(_milky != address(0));
+        assert(_wada != address(0));
         factory = IUniswapV2Factory(_factory);
         dest = _dest;
         milky = _milky;
@@ -75,6 +79,9 @@ contract MilkyMaker is Ownable {
         require(
             token != milky && token != wada && token != bridge,
             "MilkyMaker: Invalid bridge"
+        );
+        require(
+            token != address(0) && bridge != (address(0))
         );
 
         // Effects
