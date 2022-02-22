@@ -252,9 +252,9 @@ contract MasterMilker is Ownable {
     function safeMilkyTransfer(address _to, uint256 _amount) internal {
         uint256 milkyBal = milky.balanceOf(address(this));
         if (_amount > milkyBal) {
-            milky.transfer(_to, milkyBal);
+            assert(milky.transfer(_to, milkyBal));
         } else {
-            milky.transfer(_to, _amount);
+            assert(milky.transfer(_to, _amount));
         }
     }
 
