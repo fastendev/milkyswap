@@ -275,7 +275,11 @@ contract MilkyMaker is Ownable {
         amountOut = _swap(token, milky, amountIn, dest);
     }
 
-    function approveConvert(address _addr) external onlyOwner {
+    function addConverter(address _addr) external onlyOwner {
         _converters[_addr] = true;
+    }
+
+    function removeConverter(address _addr) external onlyOwner {
+        _converters[_addr] = false;
     }
 }
