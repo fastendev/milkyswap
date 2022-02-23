@@ -237,9 +237,9 @@ contract MasterMilker is Ownable {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][msg.sender];
         emit EmergencyWithdraw(msg.sender, _pid, user.amount);
+        pool.lpToken.safeTransfer(address(msg.sender), user.amount);
         user.amount = 0;
         user.rewardDebt = 0;
-        pool.lpToken.safeTransfer(address(msg.sender), user.amount);
     }
 
     // Safe milky transfer function, just in case if rounding error causes pool to not have enough MILKYs.

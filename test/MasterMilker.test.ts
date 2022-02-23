@@ -78,7 +78,7 @@ describe("MasterMilker", function () {
       this.chef = await this.MasterMilker.deploy(this.milky.address, this.dev.address, "100", "100", "1000")
       await this.chef.deployed()
 
-      await this.chef.add("100", this.lp.address, true)
+      await this.chef.add("100", this.lp.address)
 
       await this.lp.connect(this.bob).approve(this.chef.address, "1000")
 
@@ -98,7 +98,7 @@ describe("MasterMilker", function () {
 
       await this.milky.transferOwnership(this.chef.address)
 
-      await this.chef.add("100", this.lp.address, true)
+      await this.chef.add("100", this.lp.address)
 
       await this.lp.connect(this.bob).approve(this.chef.address, "1000")
       await this.chef.connect(this.bob).deposit(0, "100")
@@ -132,7 +132,7 @@ describe("MasterMilker", function () {
       this.chef = await this.MasterMilker.deploy(this.milky.address, this.dev.address, "100", "200", "1000")
       await this.chef.deployed()
       await this.milky.transferOwnership(this.chef.address)
-      await this.chef.add("100", this.lp.address, true)
+      await this.chef.add("100", this.lp.address)
       await this.lp.connect(this.bob).approve(this.chef.address, "1000")
       await advanceBlockTo("199")
       expect(await this.milky.totalSupply()).to.equal("0")
@@ -157,7 +157,7 @@ describe("MasterMilker", function () {
       this.chef = await this.MasterMilker.deploy(this.milky.address, this.dev.address, "100", "300", "1000")
       await this.chef.deployed()
       await this.milky.transferOwnership(this.chef.address)
-      await this.chef.add("100", this.lp.address, true)
+      await this.chef.add("100", this.lp.address)
       await this.lp.connect(this.alice).approve(this.chef.address, "1000", {
         from: this.alice.address,
       })
@@ -227,13 +227,13 @@ describe("MasterMilker", function () {
       await this.lp.connect(this.alice).approve(this.chef.address, "1000", { from: this.alice.address })
       await this.lp2.connect(this.bob).approve(this.chef.address, "1000", { from: this.bob.address })
       // Add first LP to the pool with allocation 1
-      await this.chef.add("10", this.lp.address, true)
+      await this.chef.add("10", this.lp.address)
       // Alice deposits 10 LPs at block 410
       await advanceBlockTo("409")
       await this.chef.connect(this.alice).deposit(0, "10", { from: this.alice.address })
       // Add LP2 to the pool with allocation 2 at block 420
       await advanceBlockTo("419")
-      await this.chef.add("20", this.lp2.address, true)
+      await this.chef.add("20", this.lp2.address)
       // Alice should have 10*1000 pending reward
       expect(await this.chef.pendingMilky(0, this.alice.address)).to.equal("1000")
       // Bob deposits 10 LP2s at block 425
@@ -252,7 +252,7 @@ describe("MasterMilker", function () {
       this.chef = await this.MasterMilker.deploy(this.milky.address, this.dev.address, "100", "500", "600")
       await this.milky.transferOwnership(this.chef.address)
       await this.lp.connect(this.alice).approve(this.chef.address, "1000", { from: this.alice.address })
-      await this.chef.add("1", this.lp.address, true)
+      await this.chef.add("1", this.lp.address)
       // Alice deposits 10 LPs at block 590
       await advanceBlockTo("589")
       await this.chef.connect(this.alice).deposit(0, "10", { from: this.alice.address })
