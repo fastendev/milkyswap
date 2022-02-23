@@ -35,7 +35,7 @@ contract MilkyMaker is Ownable {
     // V1 - V5: OK
     mapping(address => address) internal _bridges;
 
-    mapping(address => bool) internal canConvert;
+    mapping(address => bool) internal _converters;
 
     // E1: OK
     event LogBridgeSet(address indexed token, address indexed bridge);
@@ -59,7 +59,7 @@ contract MilkyMaker is Ownable {
         assert(_dest != address(0));
         assert(_milky != address(0));
         assert(_wada != address(0));
-        canConvert(msg.sender) = true;
+        _converters[msg.sender] = true;
         factory = IUniswapV2Factory(_factory);
         dest = _dest;
         milky = _milky;
@@ -108,7 +108,7 @@ contract MilkyMaker is Ownable {
     //     The onlyEOA modifier prevents this being done with a flash loan.
     // C1 - C24: OK
     function convert(address token0, address token1) external onlyEOA {
-        require(canConvert(msg.sender), "sender not authorized to call convert");
+        require(_converters[msg.sender], "sender not authorized to call convert");
         _convert(token0, token1);
     }
 
@@ -275,6 +275,6 @@ contract MilkyMaker is Ownable {
     }
 
     function approveConvert(address _addr) external onlyOwner {
-        canConvert(converter) = true;
+        _converters[_addr] = true;
     }
 }
