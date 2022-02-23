@@ -91,12 +91,9 @@ contract MasterMilker is Ownable {
     // XXX DO NOT add the same LP token more than once. Rewards will be messed up if you do.
     function add(
         uint256 _allocPoint,
-        IERC20 _lpToken,
-        bool _withUpdate
+        IERC20 _lpToken
     ) public onlyOwner {
-        if (_withUpdate) {
-            massUpdatePools();
-        }
+      massUpdatePools();
         uint256 lastRewardBlock =
             block.number > startBlock ? block.number : startBlock;
         totalAllocPoint = totalAllocPoint.add(_allocPoint);
@@ -113,12 +110,9 @@ contract MasterMilker is Ownable {
     // Update the given pool's MILKY allocation point. Can only be called by the owner.
     function set(
         uint256 _pid,
-        uint256 _allocPoint,
-        bool _withUpdate
+        uint256 _allocPoint
     ) public onlyOwner {
-        if (_withUpdate) {
-            massUpdatePools();
-        }
+        massUpdatePools();
         totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(
             _allocPoint
         );
