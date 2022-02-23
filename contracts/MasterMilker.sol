@@ -75,7 +75,7 @@ contract MasterMilker is Ownable {
         uint256 _startBlock,
         uint256 _bonusEndBlock
     ) public {
-        assert(address(_milky) != address(0));
+        assert(address(_devaddr) != address(0));
         milky = _milky;
         devaddr = _devaddr;
         milkyPerBlock = _milkyPerBlock;
@@ -255,7 +255,7 @@ contract MasterMilker is Ownable {
     // Update dev address by the previous dev.
     function dev(address _devaddr) public {
         require(msg.sender == devaddr, "dev: wut?");
-        require(_devaddr != address(0));
+        require(_devaddr != address(0), "dev: _devaddr is the zero address");
         devaddr = _devaddr;
     }
 

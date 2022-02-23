@@ -84,7 +84,8 @@ contract MilkyMaker is Ownable {
             "MilkyMaker: Invalid bridge"
         );
         require(
-            token != address(0) && bridge != (address(0))
+            token != address(0) && bridge != (address(0)),
+            "MilkyMaker: token or bridge is zero address"
         );
 
         // Effects
