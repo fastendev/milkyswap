@@ -55,10 +55,10 @@ contract MilkyMaker is Ownable {
         address _milky,
         address _wada
     ) public {
-        assert(_factory != address(0));
-        assert(_dest != address(0));
-        assert(_milky != address(0));
-        assert(_wada != address(0));
+        require(_factory != address(0));
+        require(_dest != address(0));
+        require(_milky != address(0));
+        require(_wada != address(0));
         _converters[msg.sender] = true;
         factory = IUniswapV2Factory(_factory);
         dest = _dest;

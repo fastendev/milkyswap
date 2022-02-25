@@ -75,7 +75,7 @@ contract MasterMilker is Ownable {
         uint256 _startBlock,
         uint256 _bonusEndBlock
     ) public {
-        assert(address(_devaddr) != address(0));
+        require(address(_devaddr) != address(0));
         milky = _milky;
         devaddr = _devaddr;
         milkyPerBlock = _milkyPerBlock;
