@@ -120,6 +120,7 @@ contract MilkyMaker is Ownable {
         address[] calldata token0,
         address[] calldata token1
     ) external onlyEOA {
+        require(_converters[msg.sender], "sender not authorized to call convertMultiple");
         // TODO: This can be optimized a fair bit, but this is safer and simpler for now
         uint256 len = token0.length;
         for (uint256 i = 0; i < len; i++) {
