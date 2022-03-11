@@ -54,5 +54,6 @@ export default {
         path: "./dist/abis",
         clear: false,
         flat: true,
+        runOnCompile: true,
     }
 }
