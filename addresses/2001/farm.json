@@ -1,0 +1,11 @@
+{
+  "deployer": "0xd4659DfcCD0Ed28657b83aEaaf169d44A149880D",
+  "milky": "0x063A5E4cD5e15ac66ea47134Eb60e6b30A51B2bf",
+  "creamy": "",
+  "feeDistributor": "",
+  "milkyMaker": "",
+  "masterMilker": "0xE1E1b4582760FcA9664d725412165c7cf04F5F44",
+  "txFeeTo": "",
+  "txPremine": "0x3b557b5fc08a72acf3138f386c6039ea3bcaa26069c90a5e123a936df359081c",
+  "txOwnership": "0xe341ef51ce7c8f3837986fc6b30f60b760bceb99d3833f42c21279838fcc3692"
+}

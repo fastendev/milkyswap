@@ -13,8 +13,8 @@ import fs from 'fs';
 const DECIMALS = BigNumber.from('1000000000000000000')
 const FEE_DISTRIBUTOR_START_TIME = 1644954162;
 const MILKY_PER_BLOCK = BigNumber.from('6000000000000000000'); // 6 $MILKY per block
-const START_BLOCK = 2034265; // current unix 1647880114 = block 1891594, future unix 1648450800 = (roughly) block 2034265
-const BONUS_END_BLOCK = 2034266; // plus one
+const START_BLOCK = 2050465; // current unix 1648089610 = block 1943968, future unix 1648515600 = 2050465 (roughly) block 
+const BONUS_END_BLOCK = 2050466; // plus one
 const PREMINE = BigNumber.from('36400000').mul(DECIMALS);
 
 type MilkyAddressBook = {
@@ -25,7 +25,7 @@ type MilkyAddressBook = {
 async function main() {
     await run("compile");
 
-    const [,,,deployer] = await ethers.getSigners();
+    const [,,,,,deployer] = await ethers.getSigners();
   
     console.log(`Deploying contracts with from: ${deployer.address}`);
 
