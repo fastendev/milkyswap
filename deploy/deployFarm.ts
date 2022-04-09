@@ -38,15 +38,15 @@ async function main() {
     console.log(`MilkyToken deployed to ${milkyToken.address}`);
 
     // deploy CREAMY
-    // const CreamyToken = new CreamyToken__factory(deployer)
-    // const creamyToken = await CreamyToken.deploy(
-    //     milkyToken.address,
-    //     'Vote Escrowed MILKY (CREAMY)',
-    //     'CREAMY',
-    //     '1',
-    // );
-    // await creamyToken.deployed();
-    // console.log(`CreamyToken deployed to ${creamyToken.address}`);
+    const CreamyToken = new CreamyToken__factory(deployer)
+    const creamyToken = await CreamyToken.deploy(
+        milkyToken.address,
+        'Vote Escrowed MILKY (CREAMY)',
+        'CREAMY',
+        '1',
+    );
+    await creamyToken.deployed();
+    console.log(`CreamyToken deployed to ${creamyToken.address}`);
 
     // deploy FeeDistributor
     // const FeeDistributor = new FeeDistributor__factory(deployer);
