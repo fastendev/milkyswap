@@ -12,10 +12,10 @@ import fs from 'fs';
 
 const DECIMALS = BigNumber.from('1000000000000000000')
 const FEE_DISTRIBUTOR_START_TIME = 1644954162;
-const MILKY_PER_BLOCK = 6;
-const START_BLOCK = 2172350;
-const BONUS_END_BLOCK = 2172351; // plus one
-const PREMINE = BigNumber.from('38955600').mul(DECIMALS);
+const MILKY_PER_BLOCK = BigNumber.from('6000000000000000000'); // 6 $MILKY per block
+const START_BLOCK = 2050465; // current unix 1648089610 = block 1943968, future unix 1648515600 = 2050465 (roughly) block 
+const BONUS_END_BLOCK = 2050466; // plus one
+const PREMINE = BigNumber.from('36400000').mul(DECIMALS);
 
 type MilkyAddressBook = {
     factory: string;
@@ -25,7 +25,7 @@ type MilkyAddressBook = {
 async function main() {
     await run("compile");
 
-    const [deployer] = await ethers.getSigners();
+    const [,,,,,deployer] = await ethers.getSigners();
   
     console.log(`Deploying contracts with from: ${deployer.address}`);
 
@@ -49,27 +49,27 @@ async function main() {
     console.log(`CreamyToken deployed to ${creamyToken.address}`);
 
     // deploy FeeDistributor
-    const FeeDistributor = new FeeDistributor__factory(deployer);
-    const feeDistributor = await FeeDistributor.deploy(
-        creamyToken.address,
-        FEE_DISTRIBUTOR_START_TIME,
-        milkyToken.address,
-        deployer.address,
-        deployer.address,
-    );
-    await feeDistributor.deployed()
-    console.log(`FeeDistributor deployed to ${feeDistributor.address}`);
+    // const FeeDistributor = new FeeDistributor__factory(deployer);
+    // const feeDistributor = await FeeDistributor.deploy(
+    //     creamyToken.address,
+    //     FEE_DISTRIBUTOR_START_TIME,
+    //     milkyToken.address,
+    //     deployer.address,
+    //     deployer.address,
+    // );
+    // await feeDistributor.deployed()
+    // console.log(`FeeDistributor deployed to ${feeDistributor.address}`);
 
     // deploy MilkyMaker
-    const MilkyMaker = new MilkyMaker__factory(deployer);
-    const milkyMaker = await MilkyMaker.deploy(
-        addresses.factory,
-        feeDistributor.address,
-        milkyToken.address,
-        addresses.weth,
-    );
-    await milkyMaker.deployed();
-    console.log(`MilkyMaker deployed to ${milkyMaker.address}`);
+    // const MilkyMaker = new MilkyMaker__factory(deployer);
+    // const milkyMaker = await MilkyMaker.deploy(
+    //     addresses.factory,
+    //     feeDistributor.address,
+    //     milkyToken.address,
+    //     addresses.weth,
+    // );
+    // await milkyMaker.deployed();
+    // console.log(`MilkyMaker deployed to ${milkyMaker.address}`);
 
     // deploy MasterMilker
     const MasterMilker = new MasterMilker__factory(deployer);
@@ -84,10 +84,10 @@ async function main() {
     console.log(`MasterMilker deployed to ${masterMilker.address}`);
 
     // configuration transactions
-    const factory = UniswapV2Factory__factory.connect(addresses.factory, deployer);
-    const txFee = await factory.setFeeTo(milkyMaker.address);
-    await txFee.wait();
-    console.log(`Factory feeTo set at tx ${txFee.hash}`);
+    // const factory = UniswapV2Factory__factory.connect(addresses.factory, deployer);
+    // const txFee = await factory.setFeeTo(milkyMaker.address);
+    // await txFee.wait();
+    // console.log(`Factory feeTo set at tx ${txFee.hash}`);
 
     const txPremine = await milkyToken.mint(deployer.address, PREMINE);
     await txPremine.wait();
@@ -101,11 +101,11 @@ async function main() {
     const coreAddressBook = {
         deployer: deployer.address,
         milky: milkyToken.address,
-        creamy: creamyToken.address,
-        feeDistributor: feeDistributor.address,
-        milkyMaker: milkyMaker.address,
+        creamy: '', // creamyToken.address,
+        feeDistributor: '', // feeDistributor.address,
+        milkyMaker: '', // milkyMaker.address,
         masterMilker: masterMilker.address,
-        txFeeTo: txFee.hash,
+        txFeeTo: '', // txFee.hash,
         txPremine: txPremine.hash,
         txOwnership: txOwnership.hash
     };
