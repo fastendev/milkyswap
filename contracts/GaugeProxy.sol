@@ -323,10 +323,8 @@ contract Gauge is ReentrancyGuard {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
-    IERC20 public constant MILKY =
-        IERC20(0x7642aD41d0fAFd7a42bBC681CFcAA4448DFD3CBc);
-    IERC20 public constant CREAMY =
-        IERC20(0xCF8e5f8B7701868Ba71C8E60aEbE211eaAF4eE81);
+    IERC20 public immutable MILKY;
+    IERC20 public immutable CREAMY;
 
     IERC20 public immutable TOKEN;
     address public immutable DISTRIBUTION;
@@ -354,9 +352,15 @@ contract Gauge is ReentrancyGuard {
     mapping(address => uint256) public derivedBalances;
     mapping(address => uint256) private _base;
 
-    constructor(address _token) public {
+    constructor(
+        address _token,
+        address _milky,
+        address _creamy
+    ) public {
         TOKEN = IERC20(_token);
         DISTRIBUTION = msg.sender;
+        MILKY = IERC20(_milky);
+        CREAMY = IERC20(_creamy);
     }
 
     function totalSupply() external view returns (uint256) {
@@ -691,12 +695,9 @@ contract GaugeProxy is ProtocolGovernance {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
-    MasterChef public constant MASTER =
-        MasterChef(0xcFd2D4fD9b517064dE9A83b81c68C4b6a624437e);
-    IERC20 public constant MILKY =
-        IERC20(0x7642aD41d0fAFd7a42bBC681CFcAA4448DFD3CBc);
-    IERC20 public constant CREAMY =
-        IERC20(0xCF8e5f8B7701868Ba71C8E60aEbE211eaAF4eE81);
+    MasterChef public immutable MASTER;
+    IERC20 public immutable MILKY;
+    IERC20 public immutable CREAMY;
 
     IERC20 public immutable TOKEN;
 
@@ -718,9 +719,16 @@ contract GaugeProxy is ProtocolGovernance {
         return gauges[_token];
     }
 
-    constructor() public {
+    constructor(
+        address _milky,
+        address _creamy,
+        address _master
+    ) public {
         TOKEN = IERC20(address(new MasterCreamy()));
         governance = msg.sender;
+        MILKY = IERC20(_milky);
+        CREAMY = IERC20(_creamy);
+        MASTER = MasterChef(_master);
     }
 
     // Reset votes to 0
@@ -812,7 +820,9 @@ contract GaugeProxy is ProtocolGovernance {
     function addGauge(address _token) external {
         require(msg.sender == governance, "!gov");
         require(gauges[_token] == address(0x0), "exists");
-        gauges[_token] = address(new Gauge(_token));
+        gauges[_token] = address(
+            new Gauge(_token, address(MILKY), address(CREAMY))
+        );
         _tokens.push(_token);
     }
 
