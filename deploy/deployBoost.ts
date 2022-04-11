@@ -35,6 +35,8 @@ async function main() {
     case "milkomeda":
       args = mainnet
       break
+    default:
+      console.log("Unsupported network")
   }
 
   const gaugeProxyDeployer = new GaugeProxy__factory(deployer)
