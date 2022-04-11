@@ -323,13 +323,10 @@ contract Gauge is ReentrancyGuard {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
-    // update addresses
     IERC20 public constant MILKY =
-        IERC20(0x429881672B9AE42b8EbA0E26cD9C73711b891Ca5);
+        IERC20(0x7642aD41d0fAFd7a42bBC681CFcAA4448DFD3CBc);
     IERC20 public constant CREAMY =
-        IERC20(0xbBCf169eE191A1Ba7371F30A1C344bFC498b29Cf);
-    address public constant TREASURY =
-        address(0x066419EaEf5DE53cc5da0d8702b990c5bc7D1AB3);
+        IERC20(0xCF8e5f8B7701868Ba71C8E60aEbE211eaAF4eE81);
 
     IERC20 public immutable TOKEN;
     address public immutable DISTRIBUTION;
@@ -694,13 +691,12 @@ contract GaugeProxy is ProtocolGovernance {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
-    // Update addresses
     MasterChef public constant MASTER =
-        MasterChef(0xbD17B1ce622d73bD438b9E658acA5996dc394b0d);
-    IERC20 public constant CREAMY =
-        IERC20(0xbBCf169eE191A1Ba7371F30A1C344bFC498b29Cf);
+        MasterChef(0xcFd2D4fD9b517064dE9A83b81c68C4b6a624437e);
     IERC20 public constant MILKY =
-        IERC20(0x429881672B9AE42b8EbA0E26cD9C73711b891Ca5);
+        IERC20(0x7642aD41d0fAFd7a42bBC681CFcAA4448DFD3CBc);
+    IERC20 public constant CREAMY =
+        IERC20(0xCF8e5f8B7701868Ba71C8E60aEbE211eaAF4eE81);
 
     IERC20 public immutable TOKEN;
 
