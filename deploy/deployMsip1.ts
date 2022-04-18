@@ -14,11 +14,11 @@ async function main() {
     const [deployer] = await ethers.getSigners();
   
     console.log(`Deploying contracts with from: ${deployer.address}`);
-    
+
     const addresses: FarmAddressBook = require(`${process.cwd()}/addresses/${network.config.chainId}/farm.json`);
 
     const MSIP1 = new MSIP1__factory(deployer);
-    const msip1 = await MSIP1.deploy(addresses.creamy, 1749857354000);
+    const msip1 = await MSIP1.deploy(addresses.creamy, 1650848400);
     await msip1.deployed();
     console.log(`MSIP1 deployed to ${msip1.address}`);
 
