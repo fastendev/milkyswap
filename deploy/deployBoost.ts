@@ -22,7 +22,6 @@ async function main() {
   console.log(`Deploying contracts with from: ${deployer.address}`)
 
   const args: FarmingAddresses = require(`${process.cwd()}/addresses/${network.config.chainId}/farm.json`);
-  console.log(args, network.config.chainId)
   const gaugeProxyDeployer = new GaugeProxy__factory(deployer)
   const gaugeProxy = await gaugeProxyDeployer.deploy(args.milky, args.creamy, args.masterMilker)
   await gaugeProxy.deployed()
