@@ -61,15 +61,14 @@ async function main() {
     // console.log(`FeeDistributor deployed to ${feeDistributor.address}`);
 
     // deploy MilkyMaker
-    // const MilkyMaker = new MilkyMaker__factory(deployer);
-    // const milkyMaker = await MilkyMaker.deploy(
-    //     addresses.factory,
-    //     feeDistributor.address,
-    //     milkyToken.address,
-    //     addresses.weth,
-    // );
-    // await milkyMaker.deployed();
-    // console.log(`MilkyMaker deployed to ${milkyMaker.address}`);
+    const MilkyMaker = new MilkyMaker__factory(deployer);
+    const milkyMaker = await MilkyMaker.deploy(
+        addresses.factory,
+        milkyToken.address,
+        addresses.weth,
+    );
+    await milkyMaker.deployed();
+    console.log(`MilkyMaker deployed to ${milkyMaker.address}`);
 
     // deploy MasterMilker
     const MasterMilker = new MasterMilker__factory(deployer);
@@ -101,9 +100,9 @@ async function main() {
     const coreAddressBook = {
         deployer: deployer.address,
         milky: milkyToken.address,
-        creamy: '', // creamyToken.address,
+        creamy: creamyToken.address,
         feeDistributor: '', // feeDistributor.address,
-        milkyMaker: '', // milkyMaker.address,
+        milkyMaker: milkyMaker.address,
         masterMilker: masterMilker.address,
         txFeeTo: '', // txFee.hash,
         txPremine: txPremine.hash,
