@@ -39,7 +39,7 @@ export default {
             },
         },
         milkomeda: {
-            url: 'https://rpc.c1.milkomeda.com:8545',
+            url: 'https://rpc-mainnet-cardano-evm.c1.milkomeda.com',
             chainId: 2001,
             accounts: {
                 mnemonic: process.env.MNEMONIC ? process.env.MNEMONIC : '',

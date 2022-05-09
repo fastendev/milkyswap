@@ -18,7 +18,7 @@ describe("MilkyMaker", function () {
     ])
     await deploy(this, [["creamy", this.CreamyToken, [this.milky.address, "Creamy Token", "CREAMY", "1"]]])
     await deploy(this, [["feeDist", this.FeeDistributor, [this.creamy.address, 1, this.milky.address, '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266']]])
-    await deploy(this, [["milkyMaker", this.MilkyMaker, [this.factory.address, this.feeDist.address, this.milky.address, this.weth.address]]])
+    await deploy(this, [["milkyMaker", this.MilkyMaker, [this.factory.address, this.milky.address, this.weth.address]]])
     await deploy(this, [["exploiter", this.MilkyMakerExploitMock, [this.milkyMaker.address]]])
     await createSLP(this, "milkyEth", this.milky, this.weth, getBigNumber(10))
     await createSLP(this, "strudelEth", this.strudel, this.weth, getBigNumber(10))
@@ -29,6 +29,18 @@ describe("MilkyMaker", function () {
     await createSLP(this, "daiUSDC", this.dai, this.usdc, getBigNumber(10))
     await createSLP(this, "daiMIC", this.dai, this.mic, getBigNumber(10))
   })
+  describe("setDest", function () {
+    it("sets dest to zero", async function () {
+      await expect(await this.milkyMaker.dest()).to.equal("0x0000000000000000000000000000000000000000")
+    })
+    
+    it("only let's owner change dest", async function () {
+      await expect(this.milkyMaker.connect(this.bob).setDest(this.alice.address)).to.be.revertedWith('Ownable: caller is not the owner')
+      await this.milkyMaker.setDest(this.alice.address)
+      await expect(await this.milkyMaker.dest()).to.equal(this.alice.address)
+    })
+  })
+
   describe("setBridge", function () {
     it("does not allow to set bridge for Milky", async function () {
       await expect(this.milkyMaker.setBridge(this.milky.address, this.weth.address)).to.be.revertedWith("MilkyMaker: Invalid bridge")
@@ -49,6 +61,11 @@ describe("MilkyMaker", function () {
     })
   })
   describe("convert", function () {
+    it("will not let you convert if dest is not set", async function () {
+      await this.milkyEth.transfer(this.milkyMaker.address, getBigNumber(1))
+      await expect(this.milkyMaker.convert(this.milky.address, this.weth.address)).to.revertedWith("dest is not set")
+    })
+
     it("should convert MILKY - ETH", async function () {
       await this.milkyEth.transfer(this.milkyMaker.address, getBigNumber(1))
       await this.milkyMaker.convert(this.milky.address, this.weth.address)

@@ -23,7 +23,7 @@ contract MilkyMaker is Ownable {
     IUniswapV2Factory public immutable factory;
     // 0x...
     // V1 - V5: OK
-    address public immutable dest;
+    address public dest;
     // 0x...   -- Fee Distributor contract for CREAMY holders
     // V1 - V5: OK
     address private immutable milky;
@@ -51,17 +51,14 @@ contract MilkyMaker is Ownable {
 
     constructor(
         address _factory,
-        address _dest,
         address _milky,
         address _wada
     ) public {
         require(_factory != address(0));
-        require(_dest != address(0));
         require(_milky != address(0));
         require(_wada != address(0));
         _converters[msg.sender] = true;
         factory = IUniswapV2Factory(_factory);
-        dest = _dest;
         milky = _milky;
         wada = _wada;
     }
@@ -110,6 +107,7 @@ contract MilkyMaker is Ownable {
     // C1 - C24: OK
     function convert(address token0, address token1) external onlyEOA {
         require(_converters[msg.sender], "sender not authorized to call convert");
+        require(dest != address(0), "dest is not set");
         _convert(token0, token1);
     }
 
@@ -282,5 +280,9 @@ contract MilkyMaker is Ownable {
 
     function removeConverter(address _addr) external onlyOwner {
         _converters[_addr] = false;
+    }
+
+    function setDest(address _dest) external onlyOwner {
+        dest = _dest;
     }
 }
