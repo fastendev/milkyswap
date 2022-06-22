@@ -44,6 +44,13 @@ export default {
             accounts: {
                 mnemonic: process.env.MNEMONIC ? process.env.MNEMONIC : '',
             },
+        },
+        algorandTestnet: {
+            url: 'https://testnet-algorand-rollup.a1.milkomeda.com/web3server/',
+            chainId: 20020202,
+            accounts: {
+                mnemonic: process.env.MNEMONIC ? process.env.MNEMONIC : '',
+            },
         }
     },
     typechain: {
